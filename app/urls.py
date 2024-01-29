@@ -21,9 +21,12 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 router = DefaultRouter()
-
 schema_view = get_schema_view(
     openapi.Info(
         title="Your API",
@@ -34,7 +37,7 @@ schema_view = get_schema_view(
         license=openapi.License(name="Your License"),
     ),
     public=True,
-    permission_classes=(permissions.AllowAny,),
+    permission_classes=[permissions.AllowAny]
 )
 
 urlpatterns = [
@@ -42,7 +45,10 @@ urlpatterns = [
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
-        name="schema-swagger-ui",
+        name="schema-swagger-ui"
     ),
     path("doc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-doc"),
+    path('api/token/', TokenObtainPairView.as_view(), name='access_token'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='refresh_token'),
+    path('api/', include('item.urls')),
 ]
