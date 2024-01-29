@@ -22,10 +22,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
-from authentication.controller import UserViewSet
-
 router = DefaultRouter()
-router.register(r"users", UserViewSet, basename="user")
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -42,7 +39,6 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include(router.urls)),
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
