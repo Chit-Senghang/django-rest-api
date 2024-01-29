@@ -1,0 +1,87 @@
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+
+# Python
+*.py[cod]
+$py.class
+*.so
+
+# IDEs and Editors
+.vscode/
+.idea/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+*.pot
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Virtual Environment
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+
+# PyCharm
+.idea/
+
+# Other IDEs
+.vscode/
+.sublime-workspace
+*.sublime-project
+
+# Dependency management
+.eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytype/
+.pyre/
+cython_debug/
+
+# Package build
+*.manifest
+*.spec
+dist/
+build/
+develop-eggs/
+downloads/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+.env
