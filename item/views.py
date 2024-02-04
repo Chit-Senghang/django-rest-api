@@ -1,8 +1,10 @@
 # views.py
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Item
 from .serializers import ItemSerializer
@@ -13,6 +15,8 @@ from .serializers import ItemSerializer
     responses={200: ItemSerializer(many=True)}
 )
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_all_items(request):
     """
     Get a list of all items.
@@ -27,6 +31,8 @@ def get_all_items(request):
     responses={200: ItemSerializer()}
 )
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_item(request, pk):
     """
     Get details of a specific item.

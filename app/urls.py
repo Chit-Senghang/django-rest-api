@@ -21,6 +21,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
+    TokenVerifyView
 )
 
 from shared_resources.common.swagger.swagger import get_swagger_config
@@ -29,14 +30,15 @@ router = DefaultRouter()
 schema_view = get_swagger_config()
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path(
-        "swagger/",
-        schema_view.with_ui("swagger", cache_timeout=0),
-        name="schema-swagger-ui"
-    ),
-    path("doc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-doc"),
+
+    path('swagger.json', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
     path('api/token/', TokenObtainPairView.as_view(), name='access_token'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='refresh_token'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    
     path('api/', include('item.urls')),
     path('api/', include('authentication.urls')),
 ]
