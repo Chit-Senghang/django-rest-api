@@ -29,7 +29,6 @@ coverage.xml
 
 # Translations
 *.mo
-*.pot
 
 # Sphinx documentation
 docs/_build/
@@ -55,10 +54,8 @@ celerybeat.pid
 .env
 
 # PyCharm
-.idea/
 
 # Other IDEs
-.vscode/
 .sublime-workspace
 *.sublime-project
 
@@ -84,4 +81,3 @@ sdist/
 var/
 wheels/
 share/python-wheels/
-.env
