@@ -17,29 +17,16 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from drf_yasg import openapi
-from drf_yasg.views import get_schema_view
-from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
 
-router = DefaultRouter()
-schema_view = get_schema_view(
-    openapi.Info(
-        title="Your API",
-        default_version="v1",
-        description="Your API description",
-        terms_of_service="https://www.yourapp.com/terms/",
-        contact=openapi.Contact(email="contact@yourapp.com"),
-        license=openapi.License(name="Your License"),
-    ),
-    public=True,
-    permission_classes=[permissions.AllowAny]
-)
+from shared_resources.common.swagger.swagger import get_swagger_config
 
+router = DefaultRouter()
+schema_view = get_swagger_config()
 urlpatterns = [
     path("admin/", admin.site.urls),
     path(
@@ -51,4 +38,5 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='access_token'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='refresh_token'),
     path('api/', include('item.urls')),
+    path('api/', include('authentication.urls')),
 ]
