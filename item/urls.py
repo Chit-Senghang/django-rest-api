@@ -1,6 +1,7 @@
 # urls.py
 from django.urls import path
 
+from .category.views import get_category, create_category
 from .views import get_all_items, get_item, create_item, update_item, delete_item
 
 urlpatterns = [
@@ -9,4 +10,9 @@ urlpatterns = [
     path('items/create/', create_item, name='create-item'),
     path('items/update/<int:pk>/', update_item, name='update-item'),
     path('items/delete/<int:pk>/', delete_item, name='delete-item'),
+
+    # Category
+    path('category/', get_category, name='get-all-category'),
+    path('category/create/', create_category, name='create-category')
+
 ]
