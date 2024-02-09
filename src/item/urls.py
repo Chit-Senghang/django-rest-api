@@ -1,8 +1,8 @@
 # urls.py
 from django.urls import path
 
-from .category.views import get_category, create_category
-from .views import get_all_items, get_item, create_item, update_item, delete_item
+from src.item.category.views import get_category, create_category
+from src.item.views import get_all_items, get_item, create_item, update_item, delete_item
 
 urlpatterns = [
     path('items/', get_all_items, name='get-all-items'),

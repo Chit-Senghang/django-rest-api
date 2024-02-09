@@ -3,8 +3,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from item.models import Category
-from item.serializers import CategorySerializer
+from src.item.models import Category
+from src.item.serializers import CategorySerializer
 
 
 @swagger_auto_schema(

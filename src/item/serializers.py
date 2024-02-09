@@ -1,7 +1,7 @@
 # serializers.py
 from rest_framework import serializers
 
-from .models import Item, Category
+from src.item.models import Item, Category
 
 
 class CategorySerializer(serializers.ModelSerializer):
