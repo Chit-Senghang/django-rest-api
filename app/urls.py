@@ -38,7 +38,7 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='access_token'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='refresh_token'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    
-    path('api/', include('item.urls')),
-    path('api/', include('authentication.urls')),
+
+    path('api/', include('src.item.urls')),
+    # path('api/', include('authentication.urls')),
 ]

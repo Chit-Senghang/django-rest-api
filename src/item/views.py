@@ -2,6 +2,7 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -15,15 +16,17 @@ from .serializers import ItemSerializer
     responses={200: ItemSerializer(many=True)}
 )
 @api_view(['GET'])
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
+# @authentication_classes([JWTAuthentication])
+# @permission_classes([IsAuthenticated])
 def get_all_items(request):
     """
     Get a list of all items.
     """
+    paginator = PageNumberPagination()
     items = Item.objects.all()
-    serializer = ItemSerializer(items, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    data = paginator.paginate_queryset(items, request)
+    serializer = ItemSerializer(data, many=True)
+    return paginator.get_paginated_response(serializer.data)
 
 
 @swagger_auto_schema(
@@ -48,7 +51,7 @@ def get_item(request, pk):
 @swagger_auto_schema(
     method='POST',
     request_body=ItemSerializer,
-    responses={201: ItemSerializer(), 400: "Bad Request"}
+    # responses={201: ItemSerializer(), 400: "Bad Request"}
 )
 @api_view(['POST'])
 def create_item(request):
