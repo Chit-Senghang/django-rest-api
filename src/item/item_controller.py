@@ -1,27 +1,25 @@
-# views.py
+from django.contrib.auth.decorators import permission_required
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
+from .item_service import get_items
 from .models import Item
 from .serializers import ItemSerializer
 
 
 @swagger_auto_schema(
     method='GET',
-    responses={200: ItemSerializer(many=True)}
+    responses={200: openapi.Response(description="List of items", schema=ItemSerializer(many=True))}
 )
 @api_view(['GET'])
-# @authentication_classes([JWTAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+@permission_required("item.view_item", raise_exception=True)
 def get_all_items(request):
-    """
-    Get a list of all items.
-    """
     paginator = PageNumberPagination()
     items = Item.objects.all()
     data = paginator.paginate_queryset(items, request)
@@ -31,33 +29,22 @@ def get_all_items(request):
 
 @swagger_auto_schema(
     method='GET',
-    responses={200: ItemSerializer()}
+    responses={200: openapi.Response(description="List of item", schema=ItemSerializer(many=True))}
 )
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
-def get_item(request, pk):
-    """
-    Get details of a specific item.
-    """
-    try:
-        item = Item.objects.get(pk=pk)
-        serializer = ItemSerializer(item)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except Item.DoesNotExist:
-        return Response({'error': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
+@permission_required("item.view_item", raise_exception=True)
+def get_item(req, pk):
+    return get_items(pk)
 
 
 @swagger_auto_schema(
     method='POST',
     request_body=ItemSerializer,
-    # responses={201: ItemSerializer(), 400: "Bad Request"}
+    responses={201: openapi.Response(description="Create item", schema=ItemSerializer(many=True))}
 )
 @api_view(['POST'])
 def create_item(request):
-    """
-    Create a new item.
-    """
     serializer = ItemSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -72,9 +59,6 @@ def create_item(request):
 )
 @api_view(['PUT'])
 def update_item(request, pk):
-    """
-    Update details of a specific item.
-    """
     try:
         item = Item.objects.get(pk=pk)
         serializer = ItemSerializer(instance=item, data=request.data)
@@ -92,9 +76,6 @@ def update_item(request, pk):
 )
 @api_view(['DELETE'])
 def delete_item(request, pk):
-    """
-    Delete a specific item.
-    """
     try:
         item = Item.objects.get(pk=pk)
         item.delete()
