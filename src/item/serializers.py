@@ -1,15 +1,7 @@
 # serializers.py
 from rest_framework import serializers
 
-from src.item.models import Item, Category
-
-
-class CategorySerializer(serializers.ModelSerializer):
-    name = serializers.CharField(max_length=255)
-
-    class Meta:
-        model = Category
-        fields = '__all__'
+from src.item.models import Item
 
 
 class ItemSerializer(serializers.ModelSerializer):

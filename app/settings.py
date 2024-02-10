@@ -98,9 +98,11 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = "user.User"
 MIGRATION_MODULES = {
-    "user": "src.database.user.migrations",
-    "item": "src.database.item.migrations"
+    "user": "src.databases.migrations.user",
+    "category": "src.databases.migrations.category",
+    "item": "src.databases.migrations.item",
 }
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -112,7 +114,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "drf_yasg",
-    "src",
+    "src.category",
     "src.item",
     "src.authentication.user",
     "rest_framework_simplejwt"
